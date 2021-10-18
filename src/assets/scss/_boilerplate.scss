@@ -1,0 +1,48 @@
+@use './variables' as var;
+@use './breakpoints' as md;
+
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;700&display=swap');
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  line-height: 1.4;
+  color: var.$darkBlue;
+  font-family: var.$font;
+}
+
+img {
+  width: 100%;
+}
+
+a {
+  display: inline-block;
+  text-decoration: none;
+}
+
+.hide {
+  display: none;
+
+  &-mobile {
+    @include md.breakpointDown(medium) {
+      display: none;
+    }
+  }
+
+  &-desktop {
+    @include md.breakpoint(medium) {
+      display: none;
+    }
+  }
+}
