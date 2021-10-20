@@ -8,7 +8,7 @@
       <fa :icon="['fas', 'history']" />
     </div>
     <div class="navbar__profile">
-      <fa :icon="['fas', 'user']" />
+      <fa :icon="['fas', 'sign-out-alt']" />
     </div>
   </div>
 </template>
@@ -21,15 +21,20 @@ export default {
 
 <style lang="scss" scoped>
 @use '../assets/scss/_variables.scss' as var;
+@use '../assets/scss/_breakpoints.scss' as md;
 
 .navbar {
   background: var.$linear;
-  padding: 2.5rem 1.625rem;
+  padding: 2.5rem 0.625rem;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
   min-height: 100vh;
+
+  @include md.breakpoint(medium) {
+    padding: 2.5rem 1.625rem;
+  }
 
   &__logo {
     font-size: 1.25rem;

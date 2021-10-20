@@ -11,6 +11,7 @@ import {
   faHistory,
   faUser,
   faExclamationCircle,
+  faSignOutAlt,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 
@@ -22,6 +23,7 @@ library.add(
   faHistory,
   faUser,
   faExclamationCircle,
+  faSignOutAlt,
 );
 
 createApp(App)
