@@ -7,15 +7,30 @@
       <fa :icon="['fas', 'prescription-bottle-alt']" />
       <fa :icon="['fas', 'history']" />
     </div>
-    <div class="navbar__profile">
+    <div class="navbar__profile" @click="logoutUser">
       <fa :icon="['fas', 'sign-out-alt']" />
     </div>
   </div>
 </template>
 
 <script>
+import { supabase } from '@/supabase/config.js'
+import { useRouter } from 'vue-router'
+
 export default {
   name: 'Navbar',
+  setup() {
+    const router = useRouter()
+
+    const logoutUser = async () => {
+      const { error } = await supabase.auth.signOut()
+      if (!error) {
+        router.push({ name: 'Login' })
+      }
+    }
+
+    return { logoutUser }
+  },
 }
 </script>
 
@@ -52,6 +67,7 @@ export default {
 
   &__profile {
     font-size: 1.5625rem;
+    cursor: pointer;
   }
 }
 </style>

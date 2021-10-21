@@ -21,10 +21,12 @@
             </div>
           </div>
           <div class="home__dashboard--tabs">
-            <div class="tab">
-              <fa :icon="['fas', 'book-medical']" />
-              <p>Medical History</p>
-            </div>
+            <router-link :to="{ name: 'MedicalHistory' }">
+              <div class="tab">
+                <fa :icon="['fas', 'book-medical']" />
+                <p>Medical History</p>
+              </div>
+            </router-link>
             <div class="tab">
               <fa :icon="['fas', 'briefcase-medical']" />
               <p>Medical Appointments</p>

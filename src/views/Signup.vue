@@ -66,7 +66,6 @@ export default {
           message.value = ''
           email.value = ''
           password.value = ''
-          console.log(user, error)
           router.push({ name: 'CreateProfile' })
         } else {
           message.value = error.message

@@ -1,70 +1,70 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import Home from '../views/Home.vue';
-// import { supabase } from '@/supabase/config';
+import { supabase } from '@/supabase/config';
 
 // auth guard
-// const requireAuth = (to, from, next) => {
-//   const user = supabase.auth.user();
+const requireAuth = (to, from, next) => {
+  const user = supabase.auth.user();
 
-//   if (!user) {
-//     next({ name: 'Signup' });
-//   } else {
-//     const checkProfile = async () => {
-//       const { data } = await supabase
-//         .from('users')
-//         .select('name')
-//         .filter('id', 'eq', user.id);
+  if (!user) {
+    next({ name: 'Signup' });
+  } else {
+    const checkProfile = async () => {
+      const { data } = await supabase
+        .from('information')
+        .select('full_name')
+        .filter('id', 'eq', user.id);
 
-//       if (!data.length > 0) {
-//         next({ name: 'CreateProfile' });
-//       } else {
-//         next();
-//       }
-//     };
+      if (!data.length > 0) {
+        next({ name: 'CreateProfile' });
+      } else {
+        next();
+      }
+    };
 
-//     checkProfile();
-//   }
-// };
+    checkProfile();
+  }
+};
 
-// const requireNoAuth = (to, from, next) => {
-//   const user = supabase.auth.user();
+const requireNoAuth = (to, from, next) => {
+  const user = supabase.auth.user();
 
-//   if (user) {
-//     next({ name: 'Home' });
-//   } else {
-//     next();
-//   }
-// };
+  if (user) {
+    next({ name: 'Home' });
+  } else {
+    next();
+  }
+};
 
-// const createProfileAuth = (to, from, next) => {
-//   const user = supabase.auth.user();
+const createProfileAuth = (to, from, next) => {
+  const user = supabase.auth.user();
 
-//   if (!user) {
-//     next({ name: 'Signup' });
-//   } else {
-//     const checkProfile = async () => {
-//       const { data } = await supabase
-//         .from('users')
-//         .select('name')
-//         .filter('id', 'eq', user.id);
+  if (!user) {
+    next({ name: 'Signup' });
+  } else {
+    const checkProfile = async () => {
+      const { data } = await supabase
+        .from('users')
+        .select('full_name')
+        .filter('id', 'eq', user.id);
 
-//       if (data.length > 0) {
-//         next({ name: 'Home' });
-//       } else {
-//         next();
-//       }
-//     };
+      if (data.length > 0) {
+        next({ name: 'Home' });
+      } else {
+        next();
+      }
+    };
 
-//     checkProfile();
-//   }
-// };
+    checkProfile();
+  }
+};
 
 const routes = [
   {
     path: '/',
     name: 'Home',
     component: Home,
-    // beforeEnter: requireAuth,
+    beforeEnter: requireAuth,
     meta: {
       title: 'Yasu | Homepage',
     },
@@ -76,7 +76,7 @@ const routes = [
       import(
         /* webpackChunkName: "createProfile" */ '../views/CreateProfile.vue'
       ),
-    // beforeEnter: createProfileAuth,
+    beforeEnter: createProfileAuth,
     meta: {
       title: 'Yasu | Create Profile',
     },
@@ -86,7 +86,7 @@ const routes = [
     name: 'Signup',
     component: () =>
       import(/* webpackChunkName: "signup" */ '../views/Signup.vue'),
-    // beforeEnter: requireNoAuth,
+    beforeEnter: requireNoAuth,
     meta: {
       title: 'Yasu | Signup',
     },
@@ -96,9 +96,31 @@ const routes = [
     name: 'Login',
     component: () =>
       import(/* webpackChunkName: "login" */ '../views/Login.vue'),
-    // beforeEnter: requireNoAuth,
+    beforeEnter: requireNoAuth,
     meta: {
       title: 'Yasu | Login',
+    },
+  },
+  {
+    path: '/medical-history',
+    name: 'MedicalHistory',
+    component: () =>
+      import(
+        /* webpackChunkName: "medicalHistory" */ '../views/MedicalHistory.vue'
+      ),
+    beforeEnter: requireAuth,
+    meta: {
+      title: 'Yasu | Medical History',
+    },
+  },
+  {
+    path: '/edit',
+    name: 'EditProfile',
+    component: () =>
+      import(/* webpackChunkName: "editProfile" */ '../views/EditProfile.vue'),
+    beforeEnter: requireAuth,
+    meta: {
+      title: 'Yasu | Edit Profile',
     },
   },
 ];
