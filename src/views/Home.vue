@@ -3,7 +3,10 @@
     <Navbar />
     <div class="home">
       <div class="home__content">
-        <h1>Hello Dhruv!</h1>
+        <h1>
+          Hello <span>{{ name }}</span
+          >!
+        </h1>
         <h3>Welcome to Yasu 👋</h3>
       </div>
       <div class="home__tabs">
@@ -39,15 +42,17 @@
                 <p>Medications</p>
               </div>
             </router-link>
-            <div class="tab">
-              <fa :icon="['fas', 'history']" />
-              <p>Card History</p>
-            </div>
+            <router-link to="#">
+              <div class="tab">
+                <fa :icon="['fas', 'history']" />
+                <p>Card History</p>
+              </div>
+            </router-link>
           </div>
         </div>
         <div class="qr-code">
           <div class="qr-part"></div>
-          <h2>Dhruv Solanki</h2>
+          <h2>{{ name }}</h2>
         </div>
       </div>
     </div>
@@ -56,10 +61,29 @@
 
 <script>
 import Navbar from '../components/Navbar.vue'
+import { supabase } from '@/supabase/config.js'
+import { onMounted, ref } from 'vue'
 
 export default {
   name: 'Home',
   components: { Navbar },
+  setup() {
+    const name = ref('')
+
+    onMounted(async () => {
+      const user = supabase.auth.user()
+
+      const { data } = await supabase.from('information').select('*')
+
+      const myUser = data.filter((data) => {
+        return data.id === user.id
+      })
+
+      name.value = myUser[0].full_name
+    })
+
+    return { name }
+  },
 }
 </script>
 
@@ -140,7 +164,7 @@ export default {
           gap: 13px;
         }
 
-        .tab {
+        a {
           background-color: var.$white;
           padding: 1rem;
           border-radius: 10px;
@@ -150,8 +174,16 @@ export default {
           align-items: center;
           margin-top: 15px;
 
-          p {
-            font-weight: 700;
+          .tab {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+
+            p {
+              font-weight: 700;
+            }
           }
         }
       }

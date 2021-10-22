@@ -1,11 +1,19 @@
 <template>
   <div class="navbar">
-    <div class="navbar__logo">Logo</div>
+    <router-link class="navbar__logo" :to="{ name: 'Home' }">Yasu</router-link>
     <div class="navbar__links">
-      <fa :icon="['fas', 'book-medical']" />
-      <fa :icon="['fas', 'briefcase-medical']" />
-      <fa :icon="['fas', 'prescription-bottle-alt']" />
-      <fa :icon="['fas', 'history']" />
+      <router-link :to="{ name: 'MedicalHistory' }">
+        <fa :icon="['fas', 'book-medical']" />
+      </router-link>
+      <router-link :to="{ name: 'MedicalAppointments' }">
+        <fa :icon="['fas', 'briefcase-medical']" />
+      </router-link>
+      <router-link :to="{ name: 'Medications' }">
+        <fa :icon="['fas', 'prescription-bottle-alt']" />
+      </router-link>
+      <router-link to="#">
+        <fa :icon="['fas', 'history']" />
+      </router-link>
     </div>
     <div class="navbar__profile" @click="logoutUser">
       <fa :icon="['fas', 'sign-out-alt']" />
@@ -52,8 +60,8 @@ export default {
   }
 
   &__logo {
-    font-size: 1.25rem;
     font-weight: 700;
+    font-size: 22px;
   }
 
   &__links {
