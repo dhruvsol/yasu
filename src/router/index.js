@@ -123,6 +123,28 @@ const routes = [
       title: 'Yasu | Edit Profile',
     },
   },
+  {
+    path: '/appointments',
+    name: 'MedicalAppointments',
+    component: () =>
+      import(
+        /* webpackChunkName: "medicalAppointments" */ '../views/MedicalAppointments.vue'
+      ),
+    beforeEnter: requireAuth,
+    meta: {
+      title: 'Yasu | Medical Appointments',
+    },
+  },
+  {
+    path: '/medications',
+    name: 'Medications',
+    component: () =>
+      import(/* webpackChunkName: "medications" */ '../views/Medications.vue'),
+    beforeEnter: requireAuth,
+    meta: {
+      title: 'Yasu | Medications',
+    },
+  },
 ];
 
 const router = createRouter({

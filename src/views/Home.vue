@@ -27,14 +27,18 @@
                 <p>Medical History</p>
               </div>
             </router-link>
-            <div class="tab">
-              <fa :icon="['fas', 'briefcase-medical']" />
-              <p>Medical Appointments</p>
-            </div>
-            <div class="tab">
-              <fa :icon="['fas', 'prescription-bottle-alt']" />
-              <p>Medications</p>
-            </div>
+            <router-link :to="{ name: 'MedicalAppointments' }">
+              <div class="tab">
+                <fa :icon="['fas', 'briefcase-medical']" />
+                <p>Medical Appointments</p>
+              </div>
+            </router-link>
+            <router-link :to="{ name: 'Medications' }">
+              <div class="tab">
+                <fa :icon="['fas', 'prescription-bottle-alt']" />
+                <p>Medications</p>
+              </div>
+            </router-link>
             <div class="tab">
               <fa :icon="['fas', 'history']" />
               <p>Card History</p>
