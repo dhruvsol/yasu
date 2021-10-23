@@ -117,7 +117,7 @@ export default {
       name.value = myUser[0].full_name
       email.value = user.email
 
-      qrValue.value = `${window.location.pathname}user-profile/${user.id}`
+      qrValue.value = `https://peaceful-yalow-10288d.netlify.app/user-profile/${user.id}`
 
       getAppointments()
     })
