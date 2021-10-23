@@ -90,18 +90,39 @@
 </template>
 
 <script>
-import getMedicalHistory from '@/composables/getMedicalHistory.js'
 import Appointments from '../components/Appointments'
 import Medications from '../components/Medications'
-// import { useRouter, useRoute } from 'vue-router'
-// import { supabase } from '@/supabase/config.js'
+import { ref, onMounted } from 'vue'
+import { useRoute } from 'vue-router'
+import { supabase } from '@/supabase/config.js'
 
 export default {
   name: 'UserProfile',
   components: { Appointments, Medications },
   setup() {
-    const { fullName, age, gender, bloodGroup, allergies, diseases, others } =
-      getMedicalHistory()
+    const fullName = ref('')
+    const age = ref(0)
+    const gender = ref('')
+    const bloodGroup = ref('')
+    const allergies = ref('')
+    const diseases = ref('')
+    const others = ref('')
+    const route = useRoute()
+
+    onMounted(async () => {
+      const { data } = await supabase
+        .from('information')
+        .select('*')
+        .filter('id', 'eq', route.params.id)
+
+      fullName.value = data[0].full_name
+      age.value = data[0].age
+      gender.value = data[0].gender
+      bloodGroup.value = data[0].blood_group
+      allergies.value = data[0].allergies
+      diseases.value = data[0].diseases
+      others.value = data[0].others
+    })
 
     return {
       fullName,
