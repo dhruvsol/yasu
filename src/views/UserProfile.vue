@@ -93,64 +93,15 @@
 import getMedicalHistory from '@/composables/getMedicalHistory.js'
 import Appointments from '../components/Appointments'
 import Medications from '../components/Medications'
-import { ref } from 'vue'
-import { useRouter } from 'vue-router'
-import { supabase } from '@/supabase/config.js'
+// import { useRouter, useRoute } from 'vue-router'
+// import { supabase } from '@/supabase/config.js'
 
 export default {
   name: 'UserProfile',
   components: { Appointments, Medications },
   setup() {
-    const message = ref('')
-    const isError = ref(false)
-    const router = useRouter()
-    const user = supabase.auth.user()
-
     const { fullName, age, gender, bloodGroup, allergies, diseases, others } =
       getMedicalHistory()
-
-    const handleSubmit = async () => {
-      try {
-        if (
-          fullName.value === '' ||
-          age.value === '' ||
-          gender.value === '' ||
-          bloodGroup.value === '' ||
-          allergies.value === '' ||
-          diseases.value === '' ||
-          others.value === ''
-        ) {
-          message.value = 'Please fill the form correctly'
-          isError.value = true
-        } else {
-          const { data, error } = await supabase
-            .from('information')
-            .update([
-              {
-                id: user.id,
-                full_name: fullName.value.trim(),
-                age: age.value,
-                gender: gender.value.trim(),
-                blood_group: bloodGroup.value.trim(),
-                allergies: allergies.value.trim(),
-                diseases: diseases.value.trim(),
-                others: others.value.trim(),
-              },
-            ])
-            .match({ id: user.id })
-          if (!error && data.length > 0) {
-            router.push({ name: 'MedicalHistory' })
-          } else {
-            message.value = error.message
-            isError.value = true
-          }
-        }
-      } catch (err) {
-        console.log(err.message)
-        message.value = 'Sorry, Something went wrong'
-        isError.value = true
-      }
-    }
 
     return {
       fullName,
@@ -160,9 +111,6 @@ export default {
       allergies,
       diseases,
       others,
-      handleSubmit,
-      message,
-      isError,
     }
   },
 }
