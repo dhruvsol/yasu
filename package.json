@@ -13,6 +13,7 @@
     "@fortawesome/vue-fontawesome": "^3.0.0-4",
     "@supabase/supabase-js": "^1.24.0",
     "core-js": "^3.6.5",
+    "qrcode.vue": "^3.3.3",
     "vue": "^3.0.0",
     "vue-router": "^4.0.0-0"
   },

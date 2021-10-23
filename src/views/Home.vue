@@ -12,16 +12,22 @@
       <div class="home__tabs">
         <div class="home__dashboard">
           <h2>DASHBOARD</h2>
-          <div class="home__dashboard--appointments">
+          <div class="home__dashboard--appointments" v-if="isAvailable">
             <h2>
               Upcoming <br />
               Appointments
             </h2>
             <div>
-              <p>Dr. Rajeev Prasad</p>
-              <p>Dentist</p>
-              <p>Date: 29th Oct, 2021</p>
+              <p>Name: {{ doctorName }}</p>
+              <p>Profession: {{ profession }}</p>
+              <p>Date: {{ date }}</p>
             </div>
+          </div>
+          <div class="home__dashboard--appointments" v-if="!isAvailable">
+            <h2>
+              No Upcoming <br />
+              Appointments
+            </h2>
           </div>
           <div class="home__dashboard--tabs">
             <router-link :to="{ name: 'MedicalHistory' }">
@@ -42,7 +48,7 @@
                 <p>Medications</p>
               </div>
             </router-link>
-            <router-link to="#">
+            <router-link :to="{ name: 'CardHistory' }">
               <div class="tab">
                 <fa :icon="['fas', 'history']" />
                 <p>Card History</p>
@@ -51,8 +57,11 @@
           </div>
         </div>
         <div class="qr-code">
-          <div class="qr-part"></div>
-          <h2>{{ name }}</h2>
+          <QrcodeVue :value="qrValue" size="300" level="L"></QrcodeVue>
+          <div class="qr-part">
+            <h2>Full Name: {{ name }}</h2>
+            <h2>{{ email }}</h2>
+          </div>
         </div>
       </div>
     </div>
@@ -63,12 +72,38 @@
 import Navbar from '../components/Navbar.vue'
 import { supabase } from '@/supabase/config.js'
 import { onMounted, ref } from 'vue'
+import QrcodeVue from 'qrcode.vue'
 
 export default {
   name: 'Home',
-  components: { Navbar },
+  components: { Navbar, QrcodeVue },
   setup() {
     const name = ref('')
+    const doctorName = ref('')
+    const date = ref('')
+    const email = ref('')
+    const profession = ref('')
+    const isAvailable = ref(false)
+    const user = supabase.auth.user()
+    const qrValue = ref('')
+
+    const getAppointments = async () => {
+      const { data } = await supabase.from('appointments').select('*')
+
+      const filteredData = data.filter((result) => {
+        return result.user_id === user.id
+      })
+
+      if (filteredData) {
+        isAvailable.value = true
+
+        doctorName.value = filteredData[0].name
+        date.value = filteredData[0].date
+        profession.value = filteredData[0].profession
+      } else {
+        isAvailable.value = false
+      }
+    }
 
     onMounted(async () => {
       const user = supabase.auth.user()
@@ -80,9 +115,14 @@ export default {
       })
 
       name.value = myUser[0].full_name
+      email.value = user.email
+
+      qrValue.value = `${window.location.pathname}user-profile/${user.id}`
+
+      getAppointments()
     })
 
-    return { name }
+    return { name, doctorName, date, profession, isAvailable, qrValue, email }
   },
 }
 </script>
@@ -102,6 +142,8 @@ export default {
   .home {
     width: 100%;
     padding: 2.5rem 0.625rem 2.5rem 0;
+    max-height: 100vh;
+    overflow-y: scroll;
 
     @include md.breakpoint(medium) {
       padding: 2.5rem 1.625rem 2.5rem 0;
@@ -190,7 +232,7 @@ export default {
     }
 
     .qr-code {
-      background: var.$linear;
+      background: linear-gradient(180deg, #967dd6 0%, #eeb1bc 100%);
       padding: 40px 10px;
       border-radius: 10px;
       margin-top: 20px;
@@ -202,20 +244,11 @@ export default {
         padding: 40px;
         justify-content: space-between;
         align-items: center;
-      }
-
-      .qr-part {
-        background-color: var.$gray;
-        width: 100%;
-        height: 100px;
-
-        @include md.breakpoint(large) {
-          flex: 1;
-        }
+        text-align: center;
       }
 
       h2 {
-        color: var.$white;
+        color: var.$darkBlue;
         text-align: center;
         margin-top: 15px;
 

@@ -44,7 +44,7 @@ const createProfileAuth = (to, from, next) => {
   } else {
     const checkProfile = async () => {
       const { data } = await supabase
-        .from('users')
+        .from('information')
         .select('full_name')
         .filter('id', 'eq', user.id);
 
@@ -143,6 +143,26 @@ const routes = [
     beforeEnter: requireAuth,
     meta: {
       title: 'Yasu | Medications',
+    },
+  },
+  {
+    path: '/history',
+    name: 'CardHistory',
+    component: () =>
+      import(/* webpackChunkName: "cardHistory" */ '../views/CardHistory.vue'),
+    beforeEnter: requireAuth,
+    meta: {
+      title: 'Yasu | Card History',
+    },
+  },
+  {
+    path: '/user-profile/:id',
+    name: 'UserProfile',
+    params: true,
+    component: () =>
+      import(/* webpackChunkName: "userProfile" */ '../views/UserProfile.vue'),
+    meta: {
+      title: 'Yasu | User Profile',
     },
   },
 ];

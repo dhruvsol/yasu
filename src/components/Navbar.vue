@@ -11,7 +11,7 @@
       <router-link :to="{ name: 'Medications' }">
         <fa :icon="['fas', 'prescription-bottle-alt']" />
       </router-link>
-      <router-link to="#">
+      <router-link :to="{ name: 'CardHistory' }">
         <fa :icon="['fas', 'history']" />
       </router-link>
     </div>
@@ -47,7 +47,7 @@ export default {
 @use '../assets/scss/_breakpoints.scss' as md;
 
 .navbar {
-  background: var.$linear;
+  background: var.$darkBlue;
   padding: 2.5rem 0.625rem;
   display: flex;
   flex-direction: column;
@@ -60,8 +60,9 @@ export default {
   }
 
   &__logo {
-    font-weight: 700;
-    font-size: 22px;
+    font-size: 26px;
+    font-family: 'Vibur', cursive;
+    color: var.$white;
   }
 
   &__links {
@@ -69,13 +70,25 @@ export default {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    font-size: 1.5625rem;
     gap: 1.875rem;
+
+    a {
+      color: var.$white;
+      font-size: 22px;
+
+      &.router-link-exact-active {
+        background-color: var.$white;
+        color: var.$darkBlue;
+        padding: 10px 12px;
+        border-radius: 10px;
+      }
+    }
   }
 
   &__profile {
     font-size: 1.5625rem;
     cursor: pointer;
+    color: var.$white;
   }
 }
 </style>

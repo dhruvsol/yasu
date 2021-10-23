@@ -177,6 +177,8 @@ export default {
   .medication {
     width: 100%;
     padding: 2.5rem 0.625rem 2.5rem 0;
+    max-height: 100vh;
+    overflow-y: scroll;
 
     @include md.breakpoint(medium) {
       padding: 2.5rem 1.625rem 2.5rem 0;
