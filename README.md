@@ -18,7 +18,7 @@
 
 ## Link:
 
-[**PROJECT DEPLOYED ON NETLIFY**](https://peaceful-yalow-10288d.netlify.app/)
+[**PROJECT DEPLOYED ON NETLIFY**](https://yasu.netlify.app/)
   
 
 ## Demo Video
